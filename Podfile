@@ -8,6 +8,7 @@ target 'MicroBloggingApp' do
   # Pods for MicroBloggingApp
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
+  pod 'Firebase/Database'
   pod 'GoogleSignIn'
   pod 'FirebaseUI', '~> 4.0'
 
