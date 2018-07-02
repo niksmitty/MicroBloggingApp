@@ -31,33 +31,56 @@
             </objects>
             <point key="canvasLocation" x="-767" y="6"/>
         </scene>
-        <!--View Controller-->
+        <!--Posts Feed View Controller-->
         <scene sceneID="Eoi-o1-Ure">
             <objects>
-                <viewController id="uX5-4E-n5W" sceneMemberID="viewController">
+                <viewController id="uX5-4E-n5W" customClass="PostsFeedViewController" customModule="MicroBloggingApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="TOM-bx-PDC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You are welcome!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j0d-kS-Vz3">
-                                <rect key="frame" x="118.5" y="323" width="137.5" height="21"/>
-                                <fontDescription key="fontDescription" name="Cochin-Bold" family="Cochin" pointSize="18"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="4Ya-dm-eVV">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="uX5-4E-n5W" id="ivB-hV-OnA"/>
+                                    <outlet property="delegate" destination="uX5-4E-n5W" id="GhB-Ap-ARg"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="j0d-kS-Vz3" firstAttribute="centerY" secondItem="TOM-bx-PDC" secondAttribute="centerY" id="2iP-Zw-SDQ"/>
-                            <constraint firstItem="j0d-kS-Vz3" firstAttribute="centerX" secondItem="TOM-bx-PDC" secondAttribute="centerX" id="gNe-0Q-oWY"/>
+                            <constraint firstItem="4Ya-dm-eVV" firstAttribute="top" secondItem="DJx-Nd-2ie" secondAttribute="top" id="DpS-dd-wWB"/>
+                            <constraint firstItem="4Ya-dm-eVV" firstAttribute="trailing" secondItem="DJx-Nd-2ie" secondAttribute="trailing" id="Syf-22-Ut0"/>
+                            <constraint firstItem="4Ya-dm-eVV" firstAttribute="bottom" secondItem="DJx-Nd-2ie" secondAttribute="bottom" id="s65-1M-3gF"/>
+                            <constraint firstItem="4Ya-dm-eVV" firstAttribute="leading" secondItem="DJx-Nd-2ie" secondAttribute="leading" id="x2X-FT-Tdr"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="DJx-Nd-2ie"/>
                     </view>
                     <navigationItem key="navigationItem" id="DGA-91-dTT"/>
+                    <connections>
+                        <outlet property="tableView" destination="4Ya-dm-eVV" id="CGa-10-IHY"/>
+                        <segue destination="1Yc-kD-JRM" kind="show" identifier="AddPost" id="JaV-94-rIc"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kNs-FV-0LL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="876" y="697"/>
+            <point key="canvasLocation" x="876" y="696.7016491754124"/>
+        </scene>
+        <!--Add Post View Controller-->
+        <scene sceneID="18Z-jN-jXf">
+            <objects>
+                <viewController id="1Yc-kD-JRM" customClass="AddPostViewController" customModule="MicroBloggingApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="DdB-Ns-WWS">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="mf2-fR-frm"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5Mx-aD-nD4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1654" y="697"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="VJT-Ny-UG7">
