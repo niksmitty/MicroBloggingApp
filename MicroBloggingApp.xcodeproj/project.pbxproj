@@ -13,6 +13,7 @@
 		AB15BB8B206A73DC002E682C /* PostCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB15BB89206A73DC002E682C /* PostCell.xib */; };
 		AB36CBF6204714DF008745F6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AB36CBF5204714DF008745F6 /* GoogleService-Info.plist */; };
 		AB386C84206A9D3400577CFD /* AddPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB386C83206A9D3400577CFD /* AddPostViewController.swift */; };
+		AB6E53A920EA90B50016FD8F /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6E53A820EA90B50016FD8F /* DatabaseManager.swift */; };
 		AB73E1F6204974270086DFD6 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = AB73E1F5204974270086DFD6 /* .gitignore */; };
 		AB90F05A2047101000E65B2F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB90F0592047101000E65B2F /* AppDelegate.swift */; };
 		AB90F05C2047101000E65B2F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB90F05B2047101000E65B2F /* ViewController.swift */; };
@@ -35,6 +36,7 @@
 		AB36CBF82047249E008745F6 /* UIViewController+Alerts.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Alerts.h"; sourceTree = "<group>"; };
 		AB36CBF92047F31D008745F6 /* MicroBloggingApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MicroBloggingApp.entitlements; sourceTree = "<group>"; };
 		AB386C83206A9D3400577CFD /* AddPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPostViewController.swift; sourceTree = "<group>"; };
+		AB6E53A820EA90B50016FD8F /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		AB73E1F5204974270086DFD6 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		AB90F0562047101000E65B2F /* MicroBloggingApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MicroBloggingApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB90F0592047101000E65B2F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -68,6 +70,41 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		AB6E53A420EA8FA80016FD8F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AB15BB86206A5FE9002E682C /* PostModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		AB6E53A520EA8FB20016FD8F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AB15BB88206A73DC002E682C /* PostCell.swift */,
+				AB15BB89206A73DC002E682C /* PostCell.xib */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		AB6E53A620EA8FBD0016FD8F /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				ABF8AED820485F30001C09C6 /* LoginViewController.swift */,
+				ABD666C12049808700C41B14 /* PostsFeedViewController.swift */,
+				AB386C83206A9D3400577CFD /* AddPostViewController.swift */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		AB6E53A720EA90810016FD8F /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				AB6E53A820EA90B50016FD8F /* DatabaseManager.swift */,
+			);
+			path = Firebase;
+			sourceTree = "<group>";
+		};
 		AB90F04D2047101000E65B2F = {
 			isa = PBXGroup;
 			children = (
@@ -90,13 +127,13 @@
 		AB90F0582047101000E65B2F /* MicroBloggingApp */ = {
 			isa = PBXGroup;
 			children = (
+				AB6E53A720EA90810016FD8F /* Firebase */,
+				AB6E53A420EA8FA80016FD8F /* Models */,
+				AB6E53A520EA8FB20016FD8F /* Views */,
+				AB6E53A620EA8FBD0016FD8F /* View Controllers */,
 				AB36CBF92047F31D008745F6 /* MicroBloggingApp.entitlements */,
-				AB15BB86206A5FE9002E682C /* PostModel.swift */,
 				AB90F0592047101000E65B2F /* AppDelegate.swift */,
-				ABF8AED820485F30001C09C6 /* LoginViewController.swift */,
 				AB90F05B2047101000E65B2F /* ViewController.swift */,
-				ABD666C12049808700C41B14 /* PostsFeedViewController.swift */,
-				AB386C83206A9D3400577CFD /* AddPostViewController.swift */,
 				AB90F05D2047101000E65B2F /* Main.storyboard */,
 				AB90F0602047101000E65B2F /* Assets.xcassets */,
 				AB90F0622047101000E65B2F /* LaunchScreen.storyboard */,
@@ -104,8 +141,6 @@
 				AB36CBF5204714DF008745F6 /* GoogleService-Info.plist */,
 				AB36CBF72047205B008745F6 /* BridgingHeader.h */,
 				AB36CBF82047249E008745F6 /* UIViewController+Alerts.h */,
-				AB15BB88206A73DC002E682C /* PostCell.swift */,
-				AB15BB89206A73DC002E682C /* PostCell.xib */,
 			);
 			path = MicroBloggingApp;
 			sourceTree = "<group>";
@@ -293,6 +328,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB6E53A920EA90B50016FD8F /* DatabaseManager.swift in Sources */,
 				ABD666C22049808700C41B14 /* PostsFeedViewController.swift in Sources */,
 				AB15BB87206A5FE9002E682C /* PostModel.swift in Sources */,
 				ABF8AED920485F30001C09C6 /* LoginViewController.swift in Sources */,

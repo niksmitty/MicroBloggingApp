@@ -13,8 +13,6 @@ class PostsFeedViewController: UIViewController, UITableViewDataSource, UITableV
 
     @IBOutlet weak var tableView: UITableView!
     
-    var refPosts: DatabaseReference!
-    
     var postsList = [PostModel]()
     let reuseIdentifier = "PostCell"
     
@@ -30,30 +28,12 @@ class PostsFeedViewController: UIViewController, UITableViewDataSource, UITableV
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(logOutAction))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addPostAction))
+        navigationItem.title = "Feed"
         
-        refPosts = Database.database().reference().child("posts")
-        
-        fetchPostsFromFirebase()
-    }
-    
-    func fetchPostsFromFirebase() {
-        refPosts.observe(DataEventType.value) { (snapshot) in
-            if snapshot.childrenCount > 0 {
-                self.postsList.removeAll()
-                
-                for posts in snapshot.children.allObjects as! [DataSnapshot] {
-                    let postObject = posts.value as? [String: AnyObject]
-                    let postId = posts.key
-                    let postText = postObject?["postText"]
-                    let postAuthor = postObject?["postAuthor"]
-                    
-                    let post = PostModel(id: postId as String?, text: postText as! String?, author: postAuthor as! String?)
-                    
-                    self.postsList.append(post)
-                }
-                
-                self.tableView.reloadData()
-            }
+        DatabaseManager.shared().fetchPostsFromFirebase { (result) in
+            self.postsList.removeAll()
+            self.postsList += result ?? []
+            self.tableView.reloadData()
         }
     }
     
@@ -95,7 +75,8 @@ class PostsFeedViewController: UIViewController, UITableViewDataSource, UITableV
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        print(postsList[indexPath.row])
+        let post = postsList[indexPath.row]
+        print((post.author ?? "") + " says: " + (post.text ?? ""))
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
