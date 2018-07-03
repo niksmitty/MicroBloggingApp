@@ -53,6 +53,8 @@ class PostsFeedViewController: UIViewController, UITableViewDataSource, UITableV
         self.performSegue(withIdentifier: "AddPost", sender: nil)
     }
     
+    // MARK: UITableViewDataSource
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -72,6 +74,21 @@ class PostsFeedViewController: UIViewController, UITableViewDataSource, UITableV
         return cell
     }
 
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if (editingStyle == UITableViewCellEditingStyle.delete) {
+            DatabaseManager.shared().deletePostFromFirebase(postId: postsList[indexPath.row].id)
+            postsList.remove(at: indexPath.row)
+            self.tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.fade)
+            self.tableView.setEditing(false, animated: true)
+        }
+    }
+    
+    // MARK: UITableViewDelegate
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         

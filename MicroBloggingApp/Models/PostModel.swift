@@ -9,11 +9,11 @@
 import UIKit
 
 class PostModel {
-    var id: String?
+    var id: String
     var text: String?
     var author: String?
     
-    init(id: String?, text: String?, author: String?) {
+    init(id: String, text: String?, author: String?) {
         self.id = id
         self.text = text
         self.author = author

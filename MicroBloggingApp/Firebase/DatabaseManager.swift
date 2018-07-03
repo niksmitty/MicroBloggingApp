@@ -39,7 +39,7 @@ class DatabaseManager {
                     let postText = postObject?["postText"]
                     let postAuthor = postObject?["postAuthor"]
                     
-                    let post = PostModel(id: postId as String?, text: postText as! String?, author: postAuthor as! String?)
+                    let post = PostModel(id: postId as String, text: postText as! String?, author: postAuthor as! String?)
                     
                     result.append(post)
                 }
@@ -51,6 +51,10 @@ class DatabaseManager {
     
     func insertNewPostToFirebase(author: String?, text: String?) {
         self.databaseReference.childByAutoId().setValue(["postAuthor": author, "postText": text])
+    }
+    
+    func deletePostFromFirebase(postId: String) {
+        self.databaseReference.child(postId).removeValue()
     }
     
 }
