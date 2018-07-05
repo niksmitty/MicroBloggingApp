@@ -11,16 +11,21 @@ import Firebase
 
 class DatabaseManager {
     
+    private var POSTS_URL = "posts"
+    private var USERS_URL = "users"
+    
     private static var sharedDatabaseManager: DatabaseManager = {
-        let databaseManager = DatabaseManager(databaseReference: Database.database().reference().child("posts"))
+        let databaseManager = DatabaseManager(databaseReference: Database.database().reference())
         
         return databaseManager
     }()
     
-    let databaseReference: DatabaseReference
+    let databaseReference, postsReference, usersReference: DatabaseReference
     
     private init(databaseReference: DatabaseReference) {
         self.databaseReference = databaseReference
+        self.postsReference = databaseReference.child(POSTS_URL)
+        self.usersReference = databaseReference.child(USERS_URL)
     }
     
     class func shared() -> DatabaseManager {
@@ -28,7 +33,7 @@ class DatabaseManager {
     }
     
     func fetchPostsFromFirebase(completion: @escaping (Array<PostModel>?)->()) {
-        self.databaseReference.observe(DataEventType.value) { (snapshot) in
+        self.postsReference.observe(DataEventType.value) { (snapshot) in
             if snapshot.childrenCount > 0 {
                 
                 var result = [PostModel]()
@@ -41,7 +46,7 @@ class DatabaseManager {
                     
                     let post = PostModel(id: postId as String, text: postText as! String?, author: postAuthor as! String?)
                     
-                    result.append(post)
+                    result.insert(post, at: 0)
                 }
                 
                 completion(result)
@@ -50,11 +55,11 @@ class DatabaseManager {
     }
     
     func insertNewPostToFirebase(author: String?, text: String?) {
-        self.databaseReference.childByAutoId().setValue(["postAuthor": author, "postText": text])
+        self.postsReference.childByAutoId().setValue(["postAuthor": author, "postText": text])
     }
     
     func deletePostFromFirebase(postId: String) {
-        self.databaseReference.child(postId).removeValue()
+        self.postsReference.child(postId).removeValue()
     }
     
 }

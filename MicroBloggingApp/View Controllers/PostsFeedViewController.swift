@@ -26,7 +26,7 @@ class PostsFeedViewController: UIViewController, UITableViewDataSource, UITableV
         
         navigationController?.navigationBar.tintColor = UIColor.black
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(logOutAction))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Log out", style: .plain, target: self, action: #selector(logOutAction))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addPostAction))
         navigationItem.title = "Feed"
         
