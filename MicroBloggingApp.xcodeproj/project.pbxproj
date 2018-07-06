@@ -11,6 +11,7 @@
 		AB15BB87206A5FE9002E682C /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB15BB86206A5FE9002E682C /* PostModel.swift */; };
 		AB15BB8A206A73DC002E682C /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB15BB88206A73DC002E682C /* PostCell.swift */; };
 		AB15BB8B206A73DC002E682C /* PostCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB15BB89206A73DC002E682C /* PostCell.xib */; };
+		AB26E03F20EE81A900B02942 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB26E03E20EE81A900B02942 /* ProfileViewController.swift */; };
 		AB36CBF6204714DF008745F6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AB36CBF5204714DF008745F6 /* GoogleService-Info.plist */; };
 		AB386C84206A9D3400577CFD /* AddPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB386C83206A9D3400577CFD /* AddPostViewController.swift */; };
 		AB6B0D4C20EE31ED0084F9AD /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6B0D4B20EE31ED0084F9AD /* CreateAccountViewController.swift */; };
@@ -33,6 +34,7 @@
 		AB15BB86206A5FE9002E682C /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		AB15BB88206A73DC002E682C /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		AB15BB89206A73DC002E682C /* PostCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostCell.xib; sourceTree = "<group>"; };
+		AB26E03E20EE81A900B02942 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		AB36CBF5204714DF008745F6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AB36CBF72047205B008745F6 /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
 		AB36CBF82047249E008745F6 /* UIViewController+Alerts.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Alerts.h"; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 				ABD666C12049808700C41B14 /* PostsFeedViewController.swift */,
 				AB386C83206A9D3400577CFD /* AddPostViewController.swift */,
 				AB6B0D4B20EE31ED0084F9AD /* CreateAccountViewController.swift */,
+				AB26E03E20EE81A900B02942 /* ProfileViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -263,18 +266,25 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-MicroBloggingApp/Pods-MicroBloggingApp-resources.sh",
-				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseAuthUI.bundle,
-				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseFacebookAuthUI.bundle,
-				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseGoogleAuthUI.bundle,
-				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebasePhoneAuthUI.bundle,
-				$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseTwitterAuthUI.bundle,
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseAuthUI.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseFacebookAuthUI.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseGoogleAuthUI.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebasePhoneAuthUI.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseTwitterAuthUI.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterKitResources.bundle",
 				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterShareExtensionUIResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseFacebookAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseGoogleAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebasePhoneAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseTwitterAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterKitResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterShareExtensionUIResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -340,6 +350,7 @@
 				AB6B0D4E20EE452D0084F9AD /* AuthenticationManager.swift in Sources */,
 				ABF8AED920485F30001C09C6 /* LoginViewController.swift in Sources */,
 				AB90F05C2047101000E65B2F /* ViewController.swift in Sources */,
+				AB26E03F20EE81A900B02942 /* ProfileViewController.swift in Sources */,
 				AB90F05A2047101000E65B2F /* AppDelegate.swift in Sources */,
 				AB6B0D4C20EE31ED0084F9AD /* CreateAccountViewController.swift in Sources */,
 				AB15BB8A206A73DC002E682C /* PostCell.swift in Sources */,
