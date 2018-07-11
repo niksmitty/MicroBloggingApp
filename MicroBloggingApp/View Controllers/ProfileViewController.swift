@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Firebase
+import M13ProgressSuite
 
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -19,7 +19,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     let imagePicker = UIImagePickerController()
     
-    var storageRef = Storage.storage().reference()
+    var progressView = M13ProgressViewPie()
+    
+    // MARK: View Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,46 +30,91 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         profilePhotoImageView.clipsToBounds = true
         profilePhotoImageView.contentMode = .scaleAspectFill
         
-        let testImageRef = storageRef.child("images/testImage.jpg")
+        progressView = M13ProgressViewPie.init(frame: profilePhotoImageView.frame)
+        progressView.primaryColor = UIColor.black
+        progressView.secondaryColor = UIColor.black
+        progressView.backgroundRingWidth = 0.0
+        progressView.setProgress(0, animated: true)
+        self.view.addSubview(progressView)
         
-        testImageRef.getData(maxSize: 30*1024*1024) { data, error in
-            if error != nil {
-                self.profilePhotoImageView.image = UIImage.init(named: "unknownUser")
-            } else {
-                let image = UIImage(data: data!)
-                self.profilePhotoImageView.image = image
-            }
-        }
+        guard let currentUser = AuthenticationManager.shared().currentUser() else { return }
         
         imagePicker.delegate = self
         
-        usernameValueLabel.text = Auth.auth().currentUser?.displayName
-        emailValueLabel.text = Auth.auth().currentUser?.email
+        usernameValueLabel.text = currentUser.displayName
+        emailValueLabel.text = currentUser.email
+        
+        StorageManager.shared().downloadProfileImage(userId: currentUser.uid) { (downloadTask, profileImage) in
+            
+            if let profileImage = profileImage {
+                self.profilePhotoImageView.image = profileImage
+            } else {
+                self.profilePhotoImageView.image = UIImage.init(named: "unknownUser")
+            }
+
+            guard let downloadTask = downloadTask else { return }
+            
+            StorageManager.shared().observe(task: downloadTask, status: .success, completion: { snapshot in
+                self.progressView.performEndAction(action: M13ProgressViewActionSuccess, withDelay: 1.5)
+            })
+
+            StorageManager.shared().observe(task: downloadTask, status: .progress, completion: { snapshot in
+                let percentComplete = Double(snapshot.progress!.completedUnitCount) / Double(snapshot.progress!.totalUnitCount)
+                if !percentComplete.isNaN {
+                    self.progressView.setProgress(CGFloat(percentComplete), animated: true)
+                }
+            })
+
+            StorageManager.shared().observe(task: downloadTask, status: .failure, completion: { snapshot in
+                self.progressView.performEndAction(action: M13ProgressViewActionFailure, withDelay: 1.5)
+            })
+            
+        }
+        
     }
     
+    // MARK: Button Actions
+    
     @IBAction func loadImageButtonTapped(_ sender: UIButton) {
+        
         imagePicker.allowsEditing = false
         imagePicker.sourceType = .photoLibrary
         
         present(imagePicker, animated: true, completion: nil)
+        
     }
     
     // MARK: UIImagePickerControllerDelegate
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
-            profilePhotoImageView.image = pickedImage
-        }
         
-        let data = UIImagePNGRepresentation(info[UIImagePickerControllerOriginalImage] as! UIImage)! as NSData
-
-        let imagesRef = storageRef.child("images")
-        let testImageRef = imagesRef.child("testImage.jpg")
-        let uploadTask = testImageRef.putData(data as Data, metadata: nil) { metadata, error in
-            guard let metadata = metadata else { return }
-            let size = metadata.size
-            self.storageRef.downloadURL(completion: { (url, error) in
-                guard let downloadURL = url else { return }
+        progressView.isHidden = false
+        
+        guard let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage else { return }
+        
+        profilePhotoImageView.image = pickedImage
+        
+        guard let currentUser = AuthenticationManager.shared().currentUser() else { return }
+        
+        StorageManager.shared().uploadProfileImage(image: pickedImage, userId: currentUser.uid) { (uploadTask) in
+            StorageManager.shared().observe(task: uploadTask, status: .success, completion: { snapshot in
+                let profileImageUrl = snapshot.metadata?.downloadURL()?.absoluteString
+                
+                let userInfo = ["profileImageUrl": profileImageUrl!]
+                DatabaseManager.shared().updateUserInfo(uid: currentUser.uid, userInfo: userInfo)
+                
+                self.progressView.performEndAction(action: M13ProgressViewActionSuccess, withDelay: 1.5)
+            })
+            
+            StorageManager.shared().observe(task: uploadTask, status: .progress, completion: { snapshot in
+                let percentComplete = Double(snapshot.progress!.completedUnitCount) / Double(snapshot.progress!.totalUnitCount)
+                if !percentComplete.isNaN {
+                    self.progressView.setProgress(CGFloat(percentComplete), animated: true)
+                }
+            })
+            
+            StorageManager.shared().observe(task: uploadTask, status: .failure, completion: { snapshot in
+                self.progressView.performEndAction(action: M13ProgressViewActionFailure, withDelay: 1.5)
             })
         }
         
@@ -76,6 +123,23 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
+    }
+    
+}
+
+extension M13ProgressViewPie {
+    
+    func performEndAction(action: M13ProgressViewAction, withDelay: Double) {
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + Double(self.animationDuration) + 0.1, execute: {
+            self.perform(action, animated: true)
+            DispatchQueue.main.asyncAfter(deadline: .now() + withDelay) {
+                self.perform(M13ProgressViewActionNone, animated: true)
+                self.setProgress(0, animated: true)
+                self.isHidden = true
+            }
+        })
+        
     }
     
 }
