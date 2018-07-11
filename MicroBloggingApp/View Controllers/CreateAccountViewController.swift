@@ -29,6 +29,10 @@ class CreateAccountViewController: UIViewController {
                                               password: passwordTextField.text!,
                                               username: usernameTextField.text!,
                                               photoURLString: "") { (user, error) in
+            if let user = user {
+                let userInfo = ["email": user.email!, "username": user.displayName!]
+                DatabaseManager.shared().insertNewUserToFirebase(uid: user.uid, userInfo: userInfo)
+            }
             self.performSegue(withIdentifier: "NewLoggedIn", sender: nil)
         }
     }

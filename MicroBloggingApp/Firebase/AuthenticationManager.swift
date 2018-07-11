@@ -36,6 +36,10 @@ class AuthenticationManager {
         Auth.auth().removeStateDidChangeListener(authStateListenerHandle!)
     }
     
+    func currentUser() -> User? {
+        return Auth.auth().currentUser
+    }
+    
     func isCurrentUserExist() -> Bool {
         return Auth.auth().currentUser != nil
     }
@@ -63,9 +67,10 @@ class AuthenticationManager {
                     if let error = error {
                         print(error.localizedDescription)
                         return
+                    } else {
+                        completion(user, error)
                     }
                 }
-                completion(user, error)
             }
         }
     }

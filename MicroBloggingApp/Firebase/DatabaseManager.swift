@@ -33,7 +33,7 @@ class DatabaseManager {
     }
     
     func fetchPostsFromFirebase(completion: @escaping (Array<PostModel>?)->()) {
-        self.postsReference.observe(DataEventType.value) { (snapshot) in
+        postsReference.observe(DataEventType.value) { (snapshot) in
             if snapshot.childrenCount > 0 {
                 
                 var result = [PostModel]()
@@ -55,11 +55,19 @@ class DatabaseManager {
     }
     
     func insertNewPostToFirebase(author: String?, text: String?) {
-        self.postsReference.childByAutoId().setValue(["postAuthor": author, "postText": text])
+        postsReference.childByAutoId().setValue(["postAuthor": author, "postText": text])
     }
     
     func deletePostFromFirebase(postId: String) {
-        self.postsReference.child(postId).removeValue()
+        postsReference.child(postId).removeValue()
+    }
+    
+    func insertNewUserToFirebase(uid: String, userInfo: Dictionary<String, String>) {
+        usersReference.child(uid).setValue(userInfo)
+    }
+    
+    func updateUserInfo(uid: String, userInfo: Dictionary<String, String>) {
+        usersReference.child(uid).updateChildValues(userInfo)
     }
     
 }

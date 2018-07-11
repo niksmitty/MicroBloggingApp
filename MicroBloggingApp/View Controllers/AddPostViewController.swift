@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Firebase
 
 class AddPostViewController: UIViewController {
     
@@ -28,7 +27,8 @@ class AddPostViewController: UIViewController {
     }
     
     @IBAction func uploadPostAction(_ sender: Any?) {
-        DatabaseManager.shared().insertNewPostToFirebase(author: Auth.auth().currentUser?.displayName, text: postTextView.text)
+        guard let currentUser = AuthenticationManager.shared().currentUser() else { return }
+        DatabaseManager.shared().insertNewPostToFirebase(author: currentUser.displayName, text: postTextView.text)
         navigationController?.popViewController(animated: true)
     }
     
