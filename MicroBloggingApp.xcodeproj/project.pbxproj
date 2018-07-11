@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6FA2E5819580885C1430BEB9 /* Pods_MicroBloggingApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94294C0D3AFF947DD08E37B2 /* Pods_MicroBloggingApp.framework */; };
+		AB0F97AC20F5F13E00C07F72 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0F97AB20F5F13E00C07F72 /* StorageManager.swift */; };
 		AB15BB87206A5FE9002E682C /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB15BB86206A5FE9002E682C /* PostModel.swift */; };
 		AB15BB8A206A73DC002E682C /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB15BB88206A73DC002E682C /* PostCell.swift */; };
 		AB15BB8B206A73DC002E682C /* PostCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB15BB89206A73DC002E682C /* PostCell.xib */; };
@@ -31,6 +32,7 @@
 		44BFDEAE394D42B846C1ACC3 /* Pods-MicroBloggingApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MicroBloggingApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-MicroBloggingApp/Pods-MicroBloggingApp.release.xcconfig"; sourceTree = "<group>"; };
 		6EFAFEC64A5C9E47BE1551AF /* Pods-MicroBloggingApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MicroBloggingApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MicroBloggingApp/Pods-MicroBloggingApp.debug.xcconfig"; sourceTree = "<group>"; };
 		94294C0D3AFF947DD08E37B2 /* Pods_MicroBloggingApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MicroBloggingApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB0F97AB20F5F13E00C07F72 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		AB15BB86206A5FE9002E682C /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		AB15BB88206A73DC002E682C /* PostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		AB15BB89206A73DC002E682C /* PostCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostCell.xib; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 			children = (
 				AB6E53A820EA90B50016FD8F /* DatabaseManager.swift */,
 				AB6B0D4D20EE452D0084F9AD /* AuthenticationManager.swift */,
+				AB0F97AB20F5F13E00C07F72 /* StorageManager.swift */,
 			);
 			path = Firebase;
 			sourceTree = "<group>";
@@ -305,6 +308,7 @@
 				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/M13ProgressSuite/M13ProgressSuite.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
@@ -323,6 +327,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/M13ProgressSuite.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
@@ -347,6 +352,7 @@
 				AB6E53A920EA90B50016FD8F /* DatabaseManager.swift in Sources */,
 				ABD666C22049808700C41B14 /* PostsFeedViewController.swift in Sources */,
 				AB15BB87206A5FE9002E682C /* PostModel.swift in Sources */,
+				AB0F97AC20F5F13E00C07F72 /* StorageManager.swift in Sources */,
 				AB6B0D4E20EE452D0084F9AD /* AuthenticationManager.swift in Sources */,
 				ABF8AED920485F30001C09C6 /* LoginViewController.swift in Sources */,
 				AB90F05C2047101000E65B2F /* ViewController.swift in Sources */,
