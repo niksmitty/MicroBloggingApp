@@ -128,6 +128,7 @@ PODS:
   - GTMSessionFetcher/Full (1.1.12):
     - GTMSessionFetcher/Core (= 1.1.12)
   - leveldb-library (1.18.3)
+  - M13ProgressSuite (1.2.9)
   - nanopb (0.3.8):
     - nanopb/decode (= 0.3.8)
     - nanopb/encode (= 0.3.8)
@@ -148,6 +149,7 @@ DEPENDENCIES:
   - Firebase/Storage
   - FirebaseUI (~> 4.0)
   - GoogleSignIn
+  - M13ProgressSuite (~> 1.2)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -173,6 +175,7 @@ SPEC REPOS:
     - GTMOAuth2
     - GTMSessionFetcher
     - leveldb-library
+    - M13ProgressSuite
     - nanopb
     - Protobuf
     - SDWebImage
@@ -202,12 +205,13 @@ SPEC CHECKSUMS:
   GTMOAuth2: be83fd28d63ae3087e7d351b1f39c1a7e24ab6e7
   GTMSessionFetcher: ebaa1f79a5366922c1735f1566901f50beba23b7
   leveldb-library: 10fb39c39e243db4af1828441162405bbcec1404
+  M13ProgressSuite: ea9f7263e73e9215e6849dfa54e29ee0ad6a145c
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   Protobuf: 03eef2ee0b674770735cf79d9c4d3659cf6908e8
   SDWebImage: b1189fd85365c18434270a11a5cad13a1e848d53
   TwitterCore: e0420b01e02e7d20e94690e37f43e75de219ab8d
   TwitterKit: 205ac89824bbfe9e85a16c420d30bb7bcbedac45
 
-PODFILE CHECKSUM: cf180499d012b19b1da47710ccd1a276606e58f1
+PODFILE CHECKSUM: 249a13feea730cc61b42a0b03f96a8d56e7efd17
 
 COCOAPODS: 1.5.3
