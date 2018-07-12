@@ -34,6 +34,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         progressView.primaryColor = UIColor.black
         progressView.secondaryColor = UIColor.black
         progressView.backgroundRingWidth = 0.0
+        progressView.isHidden = true
         progressView.setProgress(0, animated: true)
         self.view.addSubview(progressView)
         
@@ -44,27 +45,109 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         usernameValueLabel.text = currentUser.displayName
         emailValueLabel.text = currentUser.email
         
-        StorageManager.shared().downloadProfileImage(userId: currentUser.uid) { (downloadTask, profileImage) in
+        var isLocalProfileImageExist = true
+        
+        do {
             
-            if let profileImage = profileImage {
-                self.profilePhotoImageView.image = profileImage
-            } else {
-                self.profilePhotoImageView.image = UIImage.init(named: "unknownUser")
-            }
-
-            guard let downloadTask = downloadTask else { return }
+            let imageData = try Data(contentsOf: StorageManager.shared().profileImageLocalUrl)
+            self.profilePhotoImageView.image = UIImage(data: imageData)
+            
+        } catch {
+            
+            print("Unable to load image: \(error)")
+            isLocalProfileImageExist = false
+            self.profilePhotoImageView.image = UIImage.init(named: "unknownUser")
+            
+        }
+        
+        StorageManager.shared().getProfileImageGeneration(userId: currentUser.uid) { generation in
+            
+            guard let generation = generation else { return }
+            DatabaseManager.shared().getUserInfoFromFirebase(uid: currentUser.uid, completion: { userInfo in
+                
+                let previousProfileImageGeneration = userInfo?["profileImageGeneration"] as? String ?? ""
+                if generation != previousProfileImageGeneration || !isLocalProfileImageExist {
+                    self.downloadImage(forUser: currentUser.uid, withGeneration: generation)
+                }
+                
+            })
+            
+        }
+        
+    }
+    
+    // MARK: Uploading/Downloading methods
+    
+    private func uploadImage(forUser userId:String, withImage image: UIImage) {
+        
+        progressView.isHidden = false
+        
+        StorageManager.shared().uploadProfileImage(image: image, userId: userId) { uploadTask in
+            
+            StorageManager.shared().observe(task: uploadTask, status: .success, completion: { snapshot in
+                
+                let profileImageUrl = snapshot.metadata?.downloadURL()?.absoluteString
+                
+                let userInfo = ["profileImageUrl": profileImageUrl!]
+                DatabaseManager.shared().updateUserInfo(uid: userId, userInfo: userInfo)
+                
+                self.progressView.performEndAction(action: M13ProgressViewActionSuccess, withDelay: 1.5)
+                
+            })
+            
+            StorageManager.shared().observe(task: uploadTask, status: .progress, completion: { snapshot in
+                
+                let percentComplete = Double(snapshot.progress!.completedUnitCount) / Double(snapshot.progress!.totalUnitCount)
+                if !percentComplete.isNaN {
+                    self.progressView.setProgress(CGFloat(percentComplete), animated: true)
+                }
+                
+            })
+            
+            StorageManager.shared().observe(task: uploadTask, status: .failure, completion: { snapshot in
+                
+                self.progressView.performEndAction(action: M13ProgressViewActionFailure, withDelay: 1.5)
+                
+            })
+            
+        }
+        
+    }
+    
+    private func downloadImage(forUser userId:String, withGeneration generation: String) {
+        
+        progressView.isHidden = false
+        
+        StorageManager.shared().downloadProfileImage(userId: userId) { downloadTask in
             
             StorageManager.shared().observe(task: downloadTask, status: .success, completion: { snapshot in
+                
+                do {
+                    
+                    let imageData = try Data(contentsOf: StorageManager.shared().profileImageLocalUrl)
+                    self.profilePhotoImageView.image = UIImage(data: imageData)
+                    
+                } catch {
+                    
+                    print("Unable to load image: \(error)")
+                    self.profilePhotoImageView.image = UIImage.init(named: "unknownUser")
+                    
+                }
+                
+                let userInfo = ["profileImageGeneration": generation]
+                DatabaseManager.shared().updateUserInfo(uid: userId, userInfo: userInfo)
+                
                 self.progressView.performEndAction(action: M13ProgressViewActionSuccess, withDelay: 1.5)
+                
             })
-
+            
             StorageManager.shared().observe(task: downloadTask, status: .progress, completion: { snapshot in
                 let percentComplete = Double(snapshot.progress!.completedUnitCount) / Double(snapshot.progress!.totalUnitCount)
                 if !percentComplete.isNaN {
                     self.progressView.setProgress(CGFloat(percentComplete), animated: true)
                 }
             })
-
+            
             StorageManager.shared().observe(task: downloadTask, status: .failure, completion: { snapshot in
                 self.progressView.performEndAction(action: M13ProgressViewActionFailure, withDelay: 1.5)
             })
@@ -88,35 +171,19 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
-        progressView.isHidden = false
-        
         guard let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage else { return }
         
         profilePhotoImageView.image = pickedImage
         
         guard let currentUser = AuthenticationManager.shared().currentUser() else { return }
         
-        StorageManager.shared().uploadProfileImage(image: pickedImage, userId: currentUser.uid) { (uploadTask) in
-            StorageManager.shared().observe(task: uploadTask, status: .success, completion: { snapshot in
-                let profileImageUrl = snapshot.metadata?.downloadURL()?.absoluteString
-                
-                let userInfo = ["profileImageUrl": profileImageUrl!]
-                DatabaseManager.shared().updateUserInfo(uid: currentUser.uid, userInfo: userInfo)
-                
-                self.progressView.performEndAction(action: M13ProgressViewActionSuccess, withDelay: 1.5)
-            })
-            
-            StorageManager.shared().observe(task: uploadTask, status: .progress, completion: { snapshot in
-                let percentComplete = Double(snapshot.progress!.completedUnitCount) / Double(snapshot.progress!.totalUnitCount)
-                if !percentComplete.isNaN {
-                    self.progressView.setProgress(CGFloat(percentComplete), animated: true)
-                }
-            })
-            
-            StorageManager.shared().observe(task: uploadTask, status: .failure, completion: { snapshot in
-                self.progressView.performEndAction(action: M13ProgressViewActionFailure, withDelay: 1.5)
-            })
+        StorageManager.shared().getProfileImageGeneration(userId: currentUser.uid) { generation in
+            guard let generation = generation else { return }
+            let userInfo = ["profileImageGeneration": generation]
+            DatabaseManager.shared().updateUserInfo(uid: currentUser.uid, userInfo: userInfo)
         }
+        
+        uploadImage(forUser: currentUser.uid, withImage: pickedImage)
         
         dismiss(animated: true, completion: nil)
     }
