@@ -62,6 +62,13 @@ class DatabaseManager {
         postsReference.child(postId).removeValue()
     }
     
+    func getUserInfoFromFirebase(uid: String, completion: @escaping (Dictionary<String, AnyObject>?)->()) {
+        usersReference.child(uid).observeSingleEvent(of: .value) { snapshot in
+            let value = snapshot.value as? [String: AnyObject]
+            completion(value)
+        }
+    }
+    
     func insertNewUserToFirebase(uid: String, userInfo: Dictionary<String, String>) {
         usersReference.child(uid).setValue(userInfo)
     }
