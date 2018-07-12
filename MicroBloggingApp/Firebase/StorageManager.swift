@@ -22,11 +22,13 @@ class StorageManager {
     }()
     
     let storageReference, profileImagesReference: StorageReference
+    let profileImageLocalUrl : URL
     
     private init(storageReference: StorageReference) {
         
         self.storageReference = storageReference
         self.profileImagesReference = storageReference.child(PROFILE_IMAGES_URL)
+        self.profileImageLocalUrl = URL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] + "/profileImage.png")
         
     }
     
@@ -50,32 +52,13 @@ class StorageManager {
         
     }
     
-    func downloadProfileImage(userId: String, completion: @escaping (StorageDownloadTask?, UIImage?)->()) {
+    func downloadProfileImage(userId: String, completion: (StorageDownloadTask)->()) {
         
         let profileImageRef = profileImagesReference.child("\(userId).png")
         
-        let localURL = URL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] + "/profileImage.png")
+        let downloadTask = profileImageRef.write(toFile: profileImageLocalUrl)
         
-        var profileImage : UIImage?
-        
-        let downloadTask = profileImageRef.write(toFile: localURL) { (url, error) in
-            if let error = error {
-                print(error.localizedDescription)
-                profileImage = nil
-            } else {
-                if let url = url {
-                    do {
-                        let imageData = try Data(contentsOf: url)
-                        profileImage = UIImage(data: imageData)
-                    } catch {
-                        print("Unable to load data: \(error)")
-                    }
-                }
-            }
-            completion(nil, profileImage)
-        }
-        
-        completion(downloadTask, nil)
+        completion(downloadTask)
         
     }
     
@@ -117,6 +100,20 @@ class StorageManager {
         default:
             print("Another error occurred. This is a good place to retry the download.")
             break
+        }
+        
+    }
+    
+    func getProfileImageGeneration(userId: String, completion: @escaping (String?)->()) {
+        
+        let profileImageRef = profileImagesReference.child("\(userId).png")
+        profileImageRef.getMetadata { metadata, error in
+            if let error = error {
+                print(error.localizedDescription)
+            } else {
+                guard let generation = metadata?.generation else { return completion("") }
+                completion(String(generation))
+            }
         }
         
     }
