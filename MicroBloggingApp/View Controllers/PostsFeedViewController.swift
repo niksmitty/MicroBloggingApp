@@ -16,6 +16,8 @@ class PostsFeedViewController: UIViewController, UITableViewDataSource, UITableV
     var postsList = [PostModel]()
     let reuseIdentifier = "PostCell"
     
+    // MARK: View Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -37,6 +39,8 @@ class PostsFeedViewController: UIViewController, UITableViewDataSource, UITableV
         }
     }
     
+    // MARK: Bar Button Actions
+    
     @IBAction func logOutAction(_ sender: Any?) {
         do {
             try Auth.auth().signOut()
@@ -51,6 +55,20 @@ class PostsFeedViewController: UIViewController, UITableViewDataSource, UITableV
     
     @IBAction func addPostAction(_ sender: Any?) {
         self.performSegue(withIdentifier: "AddPost", sender: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "DetailPost" {
+            if let indexPath = tableView.indexPathForSelectedRow {
+                let destinationVC = segue.destination as! DetailPostViewController
+                let postInfo = postsList[indexPath.row]
+                destinationVC.postText = postInfo.text
+                destinationVC.postAuthor = postInfo.authorName
+                if let timestamp = postInfo.timestamp {
+                    destinationVC.postDate = Utils.getFormattedDateString(from: timestamp)
+                }
+            }
+        }
     }
     
     // MARK: UITableViewDataSource
@@ -69,7 +87,7 @@ class PostsFeedViewController: UIViewController, UITableViewDataSource, UITableV
         let post = postsList[indexPath.row]
         
         cell.postTextLabel.text = post.text
-        cell.postAuthorLabel.text = post.author
+        cell.postAuthorLabel.text = post.authorName
         
         return cell
     }
@@ -90,10 +108,8 @@ class PostsFeedViewController: UIViewController, UITableViewDataSource, UITableV
     // MARK: UITableViewDelegate
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.performSegue(withIdentifier: "DetailPost", sender: nil)
         tableView.deselectRow(at: indexPath, animated: true)
-        
-        let post = postsList[indexPath.row]
-        print((post.author ?? "") + " says: " + (post.text ?? ""))
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
