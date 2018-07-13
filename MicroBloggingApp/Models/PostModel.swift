@@ -11,11 +11,15 @@ import UIKit
 class PostModel {
     var id: String
     var text: String?
-    var author: String?
+    var authorId: String?
+    var authorName: String?
+    var timestamp: Double?
     
-    init(id: String, text: String?, author: String?) {
+    init(id: String, text: String?, authorId: String?, authorName: String?, timestamp: Double?) {
         self.id = id
         self.text = text
-        self.author = author
+        self.authorId = authorId
+        self.authorName = authorName
+        self.timestamp = timestamp
     }
 }

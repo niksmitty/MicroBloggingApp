@@ -42,9 +42,11 @@ class DatabaseManager {
                     let postObject = posts.value as? [String: AnyObject]
                     let postId = posts.key
                     let postText = postObject?["postText"]
-                    let postAuthor = postObject?["postAuthor"]
+                    let postAuthorId = postObject?["postAuthorId"]
+                    let postAuthorName = postObject?["postAuthorName"]
+                    let postDate = postObject?["postDate"]
                     
-                    let post = PostModel(id: postId as String, text: postText as! String?, author: postAuthor as! String?)
+                    let post = PostModel(id: postId as String, text: postText as! String?, authorId: postAuthorId as! String?, authorName: postAuthorName as! String?, timestamp: postDate as! Double?)
                     
                     result.insert(post, at: 0)
                 }
@@ -54,8 +56,8 @@ class DatabaseManager {
         }
     }
     
-    func insertNewPostToFirebase(author: String?, text: String?) {
-        postsReference.childByAutoId().setValue(["postAuthor": author, "postText": text])
+    func insertNewPostToFirebase(postInfo:Dictionary<String, Any>) {
+        postsReference.childByAutoId().setValue(postInfo)
     }
     
     func deletePostFromFirebase(postId: String) {

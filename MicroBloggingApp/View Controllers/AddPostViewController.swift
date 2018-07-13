@@ -28,7 +28,14 @@ class AddPostViewController: UIViewController {
     
     @IBAction func uploadPostAction(_ sender: Any?) {
         guard let currentUser = AuthenticationManager.shared().currentUser() else { return }
-        DatabaseManager.shared().insertNewPostToFirebase(author: currentUser.displayName, text: postTextView.text)
+        
+        let postInfo = [
+                        "postAuthorId": currentUser.uid,
+                        "postText": postTextView.text!,
+                        "postAuthorName": currentUser.displayName!,
+                        "postDate": Date().timeIntervalSince1970
+                       ] as [String : Any]
+        DatabaseManager.shared().insertNewPostToFirebase(postInfo: postInfo)
         navigationController?.popViewController(animated: true)
     }
     
