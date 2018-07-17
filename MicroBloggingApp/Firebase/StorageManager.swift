@@ -22,13 +22,13 @@ class StorageManager {
     }()
     
     let storageReference, profileImagesReference: StorageReference
-    let profileImageLocalUrl : URL
+    var profileImageLocalUrl: URL?
     
     private init(storageReference: StorageReference) {
         
         self.storageReference = storageReference
         self.profileImagesReference = storageReference.child(PROFILE_IMAGES_URL)
-        self.profileImageLocalUrl = URL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] + "/profileImage.png")
+        self.profileImageLocalUrl = nil
         
     }
     
@@ -36,6 +36,10 @@ class StorageManager {
         
         return sharedStorageManager
         
+    }
+    
+    func setProfileImageLocaUrl(with userId: String) {
+        profileImageLocalUrl = URL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] + "/profileImage_" + userId + ".png")
     }
     
     func uploadProfileImage(image: UIImage, userId: String, completion: (StorageUploadTask)->()) {
@@ -56,6 +60,7 @@ class StorageManager {
         
         let profileImageRef = profileImagesReference.child("\(userId).png")
         
+        guard let profileImageLocalUrl = profileImageLocalUrl else { return }
         let downloadTask = profileImageRef.write(toFile: profileImageLocalUrl)
         
         completion(downloadTask)

@@ -16,6 +16,7 @@
 		AB26E03F20EE81A900B02942 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB26E03E20EE81A900B02942 /* ProfileViewController.swift */; };
 		AB36CBF6204714DF008745F6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AB36CBF5204714DF008745F6 /* GoogleService-Info.plist */; };
 		AB386C84206A9D3400577CFD /* AddPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB386C83206A9D3400577CFD /* AddPostViewController.swift */; };
+		AB54DF6620FCECE5002C2007 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB54DF6520FCECE5002C2007 /* Extensions.swift */; };
 		AB6B0D4C20EE31ED0084F9AD /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6B0D4B20EE31ED0084F9AD /* CreateAccountViewController.swift */; };
 		AB6B0D4E20EE452D0084F9AD /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6B0D4D20EE452D0084F9AD /* AuthenticationManager.swift */; };
 		AB6E53A920EA90B50016FD8F /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6E53A820EA90B50016FD8F /* DatabaseManager.swift */; };
@@ -45,6 +46,7 @@
 		AB36CBF82047249E008745F6 /* UIViewController+Alerts.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Alerts.h"; sourceTree = "<group>"; };
 		AB36CBF92047F31D008745F6 /* MicroBloggingApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MicroBloggingApp.entitlements; sourceTree = "<group>"; };
 		AB386C83206A9D3400577CFD /* AddPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPostViewController.swift; sourceTree = "<group>"; };
+		AB54DF6520FCECE5002C2007 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		AB6B0D4B20EE31ED0084F9AD /* CreateAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
 		AB6B0D4D20EE452D0084F9AD /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
 		AB6E53A820EA90B50016FD8F /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 			isa = PBXGroup;
 			children = (
 				AB9A040420F8D7D100894B4A /* Utils.swift */,
+				AB54DF6520FCECE5002C2007 /* Extensions.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -373,6 +376,7 @@
 				AB90F05C2047101000E65B2F /* ViewController.swift in Sources */,
 				AB26E03F20EE81A900B02942 /* ProfileViewController.swift in Sources */,
 				AB90F05A2047101000E65B2F /* AppDelegate.swift in Sources */,
+				AB54DF6620FCECE5002C2007 /* Extensions.swift in Sources */,
 				AB6B0D4C20EE31ED0084F9AD /* CreateAccountViewController.swift in Sources */,
 				AB15BB8A206A73DC002E682C /* PostCell.swift in Sources */,
 				AB0F97AE20F7B35900C07F72 /* DetailPostViewController.swift in Sources */,

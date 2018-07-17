@@ -47,9 +47,12 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         var isLocalProfileImageExist = true
         
+        StorageManager.shared().setProfileImageLocaUrl(with: currentUser.uid)
+        
         do {
             
-            let imageData = try Data(contentsOf: StorageManager.shared().profileImageLocalUrl)
+            guard let profileImageLocalUrl = StorageManager.shared().profileImageLocalUrl else { return }
+            let imageData = try Data(contentsOf: profileImageLocalUrl)
             self.profilePhotoImageView.image = UIImage(data: imageData)
             
         } catch {
@@ -124,7 +127,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                 
                 do {
                     
-                    let imageData = try Data(contentsOf: StorageManager.shared().profileImageLocalUrl)
+                    guard let profileImageLocalUrl = StorageManager.shared().profileImageLocalUrl else { return }
+                    let imageData = try Data(contentsOf: profileImageLocalUrl)
                     self.profilePhotoImageView.image = UIImage(data: imageData)
                     
                 } catch {
@@ -190,23 +194,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
-    }
-    
-}
-
-extension M13ProgressViewPie {
-    
-    func performEndAction(action: M13ProgressViewAction, withDelay: Double) {
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + Double(self.animationDuration) + 0.1, execute: {
-            self.perform(action, animated: true)
-            DispatchQueue.main.asyncAfter(deadline: .now() + withDelay) {
-                self.perform(M13ProgressViewActionNone, animated: true)
-                self.setProgress(0, animated: true)
-                self.isHidden = true
-            }
-        })
-        
     }
     
 }
