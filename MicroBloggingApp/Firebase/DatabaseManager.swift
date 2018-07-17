@@ -32,26 +32,41 @@ class DatabaseManager {
         return sharedDatabaseManager
     }
     
+    // MARK: Work with posts
+    
     func fetchPostsFromFirebase(completion: @escaping (Array<PostModel>?)->()) {
         postsReference.observe(DataEventType.value) { (snapshot) in
             if snapshot.childrenCount > 0 {
                 
                 var result = [PostModel]()
                 
-                for posts in snapshot.children.allObjects as! [DataSnapshot] {
-                    let postObject = posts.value as? [String: AnyObject]
-                    let postId = posts.key
-                    let postText = postObject?["postText"]
-                    let postAuthorId = postObject?["postAuthorId"]
-                    let postAuthorName = postObject?["postAuthorName"]
-                    let postDate = postObject?["postDate"]
-                    
-                    let post = PostModel(id: postId as String, text: postText as! String?, authorId: postAuthorId as! String?, authorName: postAuthorName as! String?, timestamp: postDate as! Double?)
-                    
+                for postObject in snapshot.children.allObjects as! [DataSnapshot] {
+
+                    let post = PostModel(snapshot: postObject)
                     result.insert(post, at: 0)
+                    
                 }
                 
                 completion(result)
+            }
+        }
+    }
+    
+    func getPostsOfUser(with uid: String, completion: @escaping ([PostModel]?)->()) {
+        postsReference.queryOrdered(byChild: "postAuthorId").queryEqual(toValue: uid).observeSingleEvent(of: .value) { snapshot in
+            if snapshot.childrenCount > 0 {
+                
+                var result = [PostModel]()
+                
+                for postObject in snapshot.children.allObjects as! [DataSnapshot] {
+                    
+                    let post = PostModel(snapshot: postObject)
+                    result.insert(post, at: 0)
+                    
+                }
+                
+                completion(result)
+                
             }
         }
     }
@@ -64,10 +79,12 @@ class DatabaseManager {
         postsReference.child(postId).removeValue()
     }
     
-    func getUserInfoFromFirebase(uid: String, completion: @escaping (Dictionary<String, AnyObject>?)->()) {
+    // MARK: Work with users
+    
+    func getUserInfoFromFirebase(uid: String, completion: @escaping (UserModel)->()) {
         usersReference.child(uid).observeSingleEvent(of: .value) { snapshot in
-            let value = snapshot.value as? [String: AnyObject]
-            completion(value)
+            let user = UserModel(snapshot: snapshot)
+            completion(user)
         }
     }
     

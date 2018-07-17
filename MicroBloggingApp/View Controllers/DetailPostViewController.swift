@@ -29,8 +29,8 @@ class DetailPostViewController: UIViewController {
         postAuthorProfileImageView.clipsToBounds = true
         postAuthorProfileImageView.contentMode = .scaleAspectFill
         
-        DatabaseManager.shared().getUserInfoFromFirebase(uid: postAuthorId!) { (userInfo) in
-            let profileImageUrl = userInfo?["profileImageUrl"] as? String ?? ""
+        DatabaseManager.shared().getUserInfoFromFirebase(uid: postAuthorId!) { userInfo in
+            let profileImageUrl = userInfo.profileImageUrl ?? ""
             self.postAuthorProfileImageView.sd_setShowActivityIndicatorView(true)
             self.postAuthorProfileImageView.sd_setIndicatorStyle(.gray)
             self.postAuthorProfileImageView.sd_setImage(with: URL(string: profileImageUrl), placeholderImage: UIImage(named: "unknown"))

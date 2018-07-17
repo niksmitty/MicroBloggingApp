@@ -26,6 +26,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.title = "Profile"
+        
         profilePhotoImageView.layer.cornerRadius = profilePhotoImageView.frame.size.width / 2
         profilePhotoImageView.clipsToBounds = true
         profilePhotoImageView.contentMode = .scaleAspectFill
@@ -68,7 +70,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             guard let generation = generation else { return }
             DatabaseManager.shared().getUserInfoFromFirebase(uid: currentUser.uid, completion: { userInfo in
                 
-                let previousProfileImageGeneration = userInfo?["profileImageGeneration"] as? String ?? ""
+                let previousProfileImageGeneration = userInfo.profileImageGeneration ?? ""
                 if generation != previousProfileImageGeneration || !isLocalProfileImageExist {
                     self.downloadImage(forUser: currentUser.uid, withGeneration: generation)
                 }
