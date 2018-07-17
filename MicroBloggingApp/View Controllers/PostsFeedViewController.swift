@@ -32,7 +32,7 @@ class PostsFeedViewController: UIViewController, UITableViewDataSource, UITableV
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addPostAction))
         navigationItem.title = "Feed"
         
-        DatabaseManager.shared().fetchPostsFromFirebase { (result) in
+        DatabaseManager.shared().fetchPostsFromFirebase { result in
             self.postsList.removeAll()
             self.postsList += result ?? []
             self.tableView.reloadData()
