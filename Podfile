@@ -13,5 +13,6 @@ target 'MicroBloggingApp' do
   pod 'GoogleSignIn'
   pod 'FirebaseUI', '~> 4.0'
   pod 'M13ProgressSuite', '~> 1.2'
+  pod 'SDWebImage', '~> 4.0'
 
 end

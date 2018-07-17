@@ -63,7 +63,8 @@ class PostsFeedViewController: UIViewController, UITableViewDataSource, UITableV
                 let destinationVC = segue.destination as! DetailPostViewController
                 let postInfo = postsList[indexPath.row]
                 destinationVC.postText = postInfo.text
-                destinationVC.postAuthor = postInfo.authorName
+                destinationVC.postAuthorId = postInfo.authorId
+                destinationVC.postAuthorName = postInfo.authorName
                 if let timestamp = postInfo.timestamp {
                     destinationVC.postDate = Utils.getFormattedDateString(from: timestamp)
                 }

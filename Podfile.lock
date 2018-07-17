@@ -150,6 +150,7 @@ DEPENDENCIES:
   - FirebaseUI (~> 4.0)
   - GoogleSignIn
   - M13ProgressSuite (~> 1.2)
+  - SDWebImage (~> 4.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -212,6 +213,6 @@ SPEC CHECKSUMS:
   TwitterCore: e0420b01e02e7d20e94690e37f43e75de219ab8d
   TwitterKit: 205ac89824bbfe9e85a16c420d30bb7bcbedac45
 
-PODFILE CHECKSUM: 249a13feea730cc61b42a0b03f96a8d56e7efd17
+PODFILE CHECKSUM: 75647082d70eb26cc7f9c025fa22253f9ea28c21
 
 COCOAPODS: 1.5.3
